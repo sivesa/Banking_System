@@ -31,6 +31,25 @@ public class CustomerTest {
         classUnderTest.withdraw(50.0);
         assertEquals(150.0, classUnderTest.checkBalance(), 0.001);
     }
+
+    @Test
+    public void testWithdrawExceedsBalance() {
+        classUnderTest.deposit(100.0);
+        classUnderTest.withdraw(150.0); // Attempt to withdraw more than the balance
+        assertEquals(100.0, classUnderTest.checkBalance(), 0.001); // Balance should remain unchanged
+    }
+
+    @Test
+    public void testNegativeDeposit() {
+        classUnderTest.deposit(-50.0); // Attempt to deposit a negative amount
+        assertEquals(0.0, classUnderTest.checkBalance(), 0.001); // Balance should remain unchanged
+    }
+
+    @Test
+    public void testNegativeWithdraw() {
+        classUnderTest.withdraw(-50.0); // Attempt to withdraw a negative amount
+        assertEquals(0.0, classUnderTest.checkBalance(), 0.001); // Balance should remain unchanged
+    }
     
 }
 
