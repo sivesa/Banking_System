@@ -19,5 +19,18 @@ public class CustomerTest {
         assertEquals(0.0, classUnderTest.checkBalance(), 0.001);
     }
     
+    @Test
+    public void testDeposit() {
+        classUnderTest.deposit(100.0);
+        assertEquals(100.0, classUnderTest.checkBalance(), 0.001);
+    }
+
+    @Test
+    public void testWithdraw() {
+        classUnderTest.deposit(200.0);
+        classUnderTest.withdraw(50.0);
+        assertEquals(150.0, classUnderTest.checkBalance(), 0.001);
+    }
+    
 }
 
