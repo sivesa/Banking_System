@@ -21,6 +21,13 @@
             <scope>test</scope>
         </dependency>
         
+        <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.32</version> <!-- Check for the latest version -->
+		</dependency>
+
+        
         <!-- Add more dependencies -->
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 		<dependency>
