@@ -1,16 +1,22 @@
 package com.hexsoftwares.banking_system.terminal_api;
 
 public class Customer {
-    private String name;
+    private String accountId;
+    private String customer;
     private BankAccount account;
 
-    public Customer(String name) {
-        this.name = name;
+    public Customer(String accountId, String customer) {
+        this.accountId = accountId;
+        this.customer = customer;
         this.account = new BankAccount();
     }
     
-    public String getName() {
-        return name;
+    public String getAccountId() {
+        return accountId;
+    }
+    
+    public String getCustomer() {
+        return customer;
     }
 
     public void deposit(double amount) {

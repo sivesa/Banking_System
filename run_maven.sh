@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the project directory (change this to your project's path)
-PROJECT_DIR="/path/to/your/project"
+PROJECT_DIR="/home/ghost/solutions/HexSoftwares_Banking_System"
 
 # Change to the project directory
 cd "$PROJECT_DIR" || { echo "Project directory not found!"; exit 1; }
@@ -17,7 +17,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run the executable (specify the main class here)
-MAIN_CLASS="com.hexsoftwares.banking_system.terminal_api.Application" 
+MAIN_CLASS="com.hexsoftwares.banking_system.terminal_api.Main" 
 echo "Running the main class: $MAIN_CLASS"
 mvn exec:java -Dexec.mainClass="$MAIN_CLASS"
 
