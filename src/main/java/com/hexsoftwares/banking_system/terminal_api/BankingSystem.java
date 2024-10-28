@@ -57,30 +57,43 @@ public class BankingSystem {
         // Generate card number and PIN
         String cardNumber = generateCardNumber();
         String pin = generatePin();
+        
+        int accountId = 0;
+		try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+			// Insert new account entry
+			String accountQuery = "INSERT INTO accounts (balance) VALUES (0.0)";
+			PreparedStatement accountStmt = conn.prepareStatement(accountQuery, PreparedStatement.RETURN_GENERATED_KEYS);
+			accountStmt.executeUpdate();
 
-        // Save to database
-        String sql = "INSERT INTO users (first_name, last_name, dob, gender, email, marital_status, address, " +
-                     "city, zip_code, state, religion, category, income, occupation, account_type, card_number, pin) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, firstName);
-            pstmt.setString(2, lastName);
-            pstmt.setString(3, dob);
-            pstmt.setString(4, gender);
-            pstmt.setString(5, email);
-            pstmt.setString(6, maritalStatus);
-            pstmt.setString(7, address);
-            pstmt.setString(8, city);
-            pstmt.setString(9, zipCode);
-            pstmt.setString(10, state);
-            pstmt.setString(11, religion);
-            pstmt.setString(12, category);
-            pstmt.setString(13, income);
-            pstmt.setString(14, occupation);
-            pstmt.setString(15, accountType);
-            pstmt.setString(16, cardNumber);
-            pstmt.setString(17, pin);
+			// Retrieve generated account_id
+			ResultSet accountKeys = accountStmt.getGeneratedKeys();
+			if (accountKeys.next()) {
+				accountId = accountKeys.getInt(1);
+			}
+
+			// Insert new user with the generated account_id
+			String sql = "INSERT INTO users (account_id, first_name, last_name, dob, gender, email, marital_status, " +
+				         "address, city, zip_code, state, religion, category, income, occupation, account_type, " +
+				         "card_number, pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, accountId);
+			pstmt.setString(2, firstName);
+			pstmt.setString(3, lastName);
+			pstmt.setString(4, dob);
+			pstmt.setString(5, gender);
+			pstmt.setString(6, email);
+			pstmt.setString(7, maritalStatus);
+			pstmt.setString(8, address);
+			pstmt.setString(9, city);
+			pstmt.setString(10, zipCode);
+			pstmt.setString(11, state);
+			pstmt.setString(12, religion);
+			pstmt.setString(13, category);
+			pstmt.setString(14, income);
+			pstmt.setString(15, occupation);
+			pstmt.setString(16, accountType);
+			pstmt.setString(17, cardNumber);
+			pstmt.setString(18, pin);
             pstmt.executeUpdate();
             System.out.println("Registration successful! Your card number is: " + cardNumber);
         } catch (SQLException e) {
@@ -103,7 +116,7 @@ public class BankingSystem {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				System.out.println("Login successful! Welcome, " + rs.getString("first_name") );
-				Customer customer = new Customer(rs.getString("id"), rs.getString("first_name"));
+				Customer customer = new Customer(Integer.parseInt(rs.getString("id")), rs.getString("first_name"));
 				return customer;
 			} else {
 				System.out.println("Invalid card number or PIN.");

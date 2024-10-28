@@ -1,5 +1,7 @@
 package com.hexsoftwares.banking_system.terminal_api;
 
+
+
 public class User {
     private String firstName;
     private String lastName;

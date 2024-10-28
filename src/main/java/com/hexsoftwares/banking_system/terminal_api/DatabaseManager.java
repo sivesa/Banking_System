@@ -16,6 +16,8 @@ public class DatabaseManager {
             // Create users table
             String sql = "CREATE TABLE IF NOT EXISTS users (" +
                          "id INT PRIMARY KEY AUTO_INCREMENT," +
+                         "account_id INT," +
+                         "FOREIGN KEY (account_id) REFERENCES accounts(account_id)," +
                          "first_name VARCHAR(100) NOT NULL," +
                          "last_name VARCHAR(100) NOT NULL," +
                          "dob DATE NOT NULL," +
@@ -33,10 +35,36 @@ public class DatabaseManager {
                          "account_type VARCHAR(50) NOT NULL," +
                          "card_number VARCHAR(16) NOT NULL UNIQUE," +
                          "pin VARCHAR(4) NOT NULL)";
+                         
+			String createAccountsTable = "CREATE TABLE IF NOT EXISTS accounts ("
+                    + "account_id INT AUTO_INCREMENT PRIMARY KEY, "
+                    + "balance DECIMAL(15, 2) DEFAULT 0.0)";
             stmt.execute(sql);
+            stmt.execute(createAccountsTable);
+            System.out.println("Database setup completed.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+    
+    // TODO Get a connection to the database
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    // TODO Close the connection to release resources (optional if using try-with-resources)
+    public static void closeConnection(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.err.println("Failed to close connection.");
+                e.printStackTrace();
+            }
+        }
+    }
 }
+
+
+
 

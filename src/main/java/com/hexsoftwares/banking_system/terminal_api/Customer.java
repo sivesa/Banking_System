@@ -1,17 +1,17 @@
 package com.hexsoftwares.banking_system.terminal_api;
 
 public class Customer {
-    private String accountId;
+    private int accountId;
     private String customer;
     private BankAccount account;
 
-    public Customer(String accountId, String customer) {
+    public Customer(int accountId, String customer) {
         this.accountId = accountId;
         this.customer = customer;
-        this.account = new BankAccount();
+        this.account = new BankAccount(accountId);
     }
     
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
     
