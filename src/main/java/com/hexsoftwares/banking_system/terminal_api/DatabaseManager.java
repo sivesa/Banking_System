@@ -5,13 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.hexsoftwares.banking_system.terminal_api.XMLUtil;
+
 public class DatabaseManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/banking_system"; // Update with your database name
-    private static final String USER = "root"; // Your MySQL username
-    private static final String PASSWORD = "root"; // Your MySQL password
 
     public static void setupDatabase() {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(XMLUtil.getUrl(), XMLUtil.getUsername(), XMLUtil.getPassword());
              Statement stmt = conn.createStatement()) {
             // Create users table
             String sql = "CREATE TABLE IF NOT EXISTS users (" +
@@ -49,7 +48,7 @@ public class DatabaseManager {
     
     // TODO Get a connection to the database
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(XMLUtil.getUrl(), XMLUtil.getUsername(), XMLUtil.getPassword());
     }
 
     // TODO Close the connection to release resources (optional if using try-with-resources)

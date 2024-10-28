@@ -1,0 +1,7 @@
+<!-- database-config.xml -->
+<database>
+    <url>jdbc:mysql://localhost:3306/banking_system</url>
+    <username>root</username>
+    <password>root</password>
+</database>
+

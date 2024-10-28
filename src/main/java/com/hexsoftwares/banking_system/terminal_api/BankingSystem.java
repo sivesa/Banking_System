@@ -9,10 +9,9 @@ import java.sql.SQLException;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.hexsoftwares.banking_system.terminal_api.XMLUtil;
+
 public class BankingSystem {
-    private static final String URL = "jdbc:mysql://localhost:3306/banking_system"; // Update with your database name
-    private static final String USER = "root"; // Your MySQL username
-    private static final String PASSWORD = "root"; // Your MySQL password
 
     public void registerUser() {
         Scanner scanner = new Scanner(System.in);
@@ -59,7 +58,7 @@ public class BankingSystem {
         String pin = generatePin();
         
         int accountId = 0;
-		try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+		try (Connection conn = DriverManager.getConnection(XMLUtil.getUrl(), XMLUtil.getUsername(), XMLUtil.getPassword())) {
 			// Insert new account entry
 			String accountQuery = "INSERT INTO accounts (balance) VALUES (0.0)";
 			PreparedStatement accountStmt = conn.prepareStatement(accountQuery, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -109,7 +108,7 @@ public class BankingSystem {
         String pin = scanner.nextLine();
 
         String sql = "SELECT * FROM users WHERE card_number = ? AND pin = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(XMLUtil.getUrl(), XMLUtil.getUsername(), XMLUtil.getPassword());
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, cardNumber);
 			pstmt.setString(2, pin);
