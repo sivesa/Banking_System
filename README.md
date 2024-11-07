@@ -1,4 +1,4 @@
-# HexSoftwares_Banking_System
+# Banking_System
 
 ## Getting Started
 This project is a `Java` project using `maven` as build tool.
